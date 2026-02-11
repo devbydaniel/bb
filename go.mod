@@ -1,4 +1,4 @@
-module github.com/nicknamedbydaniel/bb
+module github.com/devbydaniel/bb
 
 go 1.25.5
 
