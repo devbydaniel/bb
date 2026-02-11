@@ -1,0 +1,60 @@
+version: 2
+
+builds:
+  - id: bb-linux
+    main: .
+    binary: bb
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+    goarch:
+      - amd64
+      - arm64
+    ldflags:
+      - -s -w
+
+  - id: bb-darwin
+    main: .
+    binary: bb
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - darwin
+    goarch:
+      - amd64
+      - arm64
+    ldflags:
+      - -s -w
+
+archives:
+  - id: bb
+    ids:
+      - bb-linux
+      - bb-darwin
+    name_template: "bb_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+
+checksum:
+  name_template: "checksums.txt"
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
+      - "^chore:"
+      - "^ci:"
+
+brews:
+  - name: bb
+    ids:
+      - bb-darwin
+    repository:
+      owner: devbydaniel
+      name: homebrew-tap
+      token: "{{ .Env.HOMEBREW_TAP_TOKEN }}"
+    directory: Formula
+    homepage: "https://github.com/devbydaniel/bb"
+    description: "Browser automation CLI for AI agents"
+    license: "MIT"
