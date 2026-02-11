@@ -65,7 +65,7 @@ func saveState(s *State) error {
 }
 
 func removeState() {
-	os.Remove(statePath())
+	_ = os.Remove(statePath())
 }
 
 func fatal(format string, args ...interface{}) {
@@ -100,7 +100,7 @@ func ensureBrowser() (*State, *rod.Browser) {
 
 	// Start new browser
 	dataDir := filepath.Join(stateDir(), "chrome-data")
-	os.MkdirAll(dataDir, 0755)
+	_ = os.MkdirAll(dataDir, 0755)
 
 	l := launcher.New().
 		Set("no-sandbox").
@@ -343,7 +343,7 @@ func cmdOpen(args []string, flags globalFlags) {
 	if len(pages) == 0 {
 		page = browser.MustPage(u).Timeout(defaultTimeout)
 		s.ActivePage = 0
-		saveState(s)
+		_ = saveState(s)
 	} else {
 		idx := s.ActivePage
 		if idx < 0 || idx >= len(pages) {
@@ -961,7 +961,7 @@ func cmdNewPage(args []string) {
 			break
 		}
 	}
-	saveState(s)
+	_ = saveState(s)
 
 	info, _ := page.Info()
 	if info != nil {
@@ -997,7 +997,7 @@ func cmdClosePage(args []string) {
 	if s.ActivePage < 0 {
 		s.ActivePage = 0
 	}
-	saveState(s)
+	_ = saveState(s)
 	fmt.Printf("Closed page %d\n", idx)
 }
 
@@ -1136,7 +1136,7 @@ func cmdStop() {
 		browser.MustClose()
 	} else if s.ChromePID > 0 {
 		if proc, err := os.FindProcess(s.ChromePID); err == nil {
-			proc.Signal(syscall.SIGTERM)
+			_ = proc.Signal(syscall.SIGTERM)
 		}
 	}
 	removeState()

@@ -100,31 +100,31 @@ func TestMain(m *testing.M) {
 			return
 		}
 		w.Header().Set("Content-Type", "text/html")
-		fmt.Fprint(w, indexHTML)
+		_, _ = fmt.Fprint(w, indexHTML)
 	})
 	mux.HandleFunc("/page2", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "text/html")
-		fmt.Fprint(w, page2HTML)
+		_, _ = fmt.Fprint(w, page2HTML)
 	})
 	mux.HandleFunc("/form", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "text/html")
-		fmt.Fprint(w, formHTML)
+		_, _ = fmt.Fprint(w, formHTML)
 	})
 	mux.HandleFunc("/delayed", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "text/html")
-		fmt.Fprint(w, delayedHTML)
+		_, _ = fmt.Fprint(w, delayedHTML)
 	})
 	mux.HandleFunc("/big", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "text/html")
-		fmt.Fprint(w, bigHTML)
+		_, _ = fmt.Fprint(w, bigHTML)
 	})
 	mux.HandleFunc("/submitted", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "text/html")
-		fmt.Fprint(w, submittedHTML)
+		_, _ = fmt.Fprint(w, submittedHTML)
 	})
 	mux.HandleFunc("/multi", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "text/html")
-		fmt.Fprint(w, multiElHTML)
+		_, _ = fmt.Fprint(w, multiElHTML)
 	})
 	server = httptest.NewServer(mux)
 
@@ -150,7 +150,7 @@ func TestMain(m *testing.M) {
 	// Teardown: stop browser, clean up
 	runBBRaw("stop")
 	server.Close()
-	os.RemoveAll(tmp)
+	_ = os.RemoveAll(tmp)
 	os.Exit(code)
 }
 
@@ -735,11 +735,11 @@ func TestTabs(t *testing.T) {
 		// Close until one remains, then try to close it
 		pages := runBB(t, "pages", "--json")
 		var ps []map[string]interface{}
-		json.Unmarshal([]byte(pages), &ps)
+		_ = json.Unmarshal([]byte(pages), &ps)
 		for len(ps) > 1 {
 			runBB(t, "closepage", "0")
 			pages = runBB(t, "pages", "--json")
-			json.Unmarshal([]byte(pages), &ps)
+			_ = json.Unmarshal([]byte(pages), &ps)
 		}
 		_, _, code := runBBRaw("closepage")
 		if code == 0 {
@@ -962,7 +962,7 @@ func TestStatusAndStop(t *testing.T) {
 			// Check JSON
 			jsonOut, _, _ := runBBRaw("status", "--json")
 			var s map[string]interface{}
-			json.Unmarshal([]byte(jsonOut), &s)
+			_ = json.Unmarshal([]byte(jsonOut), &s)
 			if s["running"] == true {
 				t.Error("browser should not be running after stop")
 			}
