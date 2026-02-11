@@ -1,0 +1,78 @@
+bb - browser automation CLI for AI agents
+
+Drives a persistent headless Chrome instance. Auto-starts on first use.
+State stored in ~/.bb/. All commands output plain text unless --json is used.
+
+NAVIGATE
+  bb open <url>              Navigate and extract readable content
+  bb open --raw <url>        Navigate without content extraction
+  bb open --wait <url>       Wait for full DOM stability after load
+                             ⚠ Will hang on SPAs — use bb wait/sleep instead
+  bb back                    Go back
+  bb forward                 Go forward
+  bb reload                  Reload page
+
+EXTRACT
+  bb url                     Print current URL
+  bb title                   Print page title
+  bb text [selector]         Print text content (page or element)
+  bb html [selector]         Print HTML (page or element)
+  bb attr <selector> <name>  Print attribute value
+  bb pdf [file]              Save page as PDF
+  bb extract                 Re-extract readable content from current page
+
+INTERACT
+  bb click <selector>        Click element
+  bb input <selector> <text> Type into input field
+  bb clear <selector>        Clear input field
+  bb select <selector> <val> Select dropdown option
+  bb submit <selector>       Submit form
+  bb hover <selector>        Hover over element
+  bb focus <selector>        Focus element
+
+JAVASCRIPT
+  bb js <expression>         Evaluate JS expression
+
+WAIT
+  bb wait <selector>         Wait for element to appear
+  bb waitload                Wait for page load event
+  bb waitstable              Wait for DOM to stop changing
+  bb waitidle                Wait for network idle
+  bb sleep <seconds>         Sleep N seconds
+
+SCREENSHOT
+  bb screenshot [file] [-w N] [-h N]   Page screenshot
+  bb screenshot-el <sel> [file]        Element screenshot
+
+TABS
+  bb pages                   List all tabs
+  bb page <index>            Switch to tab
+  bb newpage [url]            Open new tab
+  bb closepage [index]       Close tab
+
+QUERY
+  bb exists <selector>       Check if element exists (exit code)
+  bb count <selector>        Count matching elements
+  bb visible <selector>      Check if element is visible (exit code)
+
+ACCESSIBILITY
+  bb ax-tree [--depth N]     Dump accessibility tree
+  bb ax-find [--name N] [--role R]  Find accessible nodes
+  bb ax-node <selector>      Inspect element accessibility
+
+BROWSER
+  bb status                  Show browser status
+  bb stop                    Shut down Chrome
+
+FLAGS
+  --json                     JSON output (supported by: open, extract, js,
+                             pages, status, ax-tree, ax-find, ax-node)
+  --timeout <seconds>        Override default timeout (default: 30)
+
+ENVIRONMENT
+  BB_CHROME_BIN              Path to Chrome/Chromium binary
+  BB_TIMEOUT                 Default timeout in seconds
+
+TIPS
+  For dynamic pages, prefer bb wait <selector> or bb sleep <N> after
+  bb open. Most modern sites are SPAs — start with bb open, not bb open --wait.
