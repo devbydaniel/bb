@@ -49,7 +49,7 @@ changelog:
 brews:
   - name: bb
     ids:
-      - bb-darwin
+      - bb
     repository:
       owner: devbydaniel
       name: homebrew-tap
