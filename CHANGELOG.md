@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.2](https://github.com/devbydaniel/bb/compare/v1.0.1...v1.0.2) (2026-02-14)
+
+
+### Bug Fixes
+
+* add password-store=basic to prevent keyring blocking on Linux ([77f2ab8](https://github.com/devbydaniel/bb/commit/77f2ab8b56f222720c3534c38a84c2f1c267400b))
+
 ## [1.0.1](https://github.com/devbydaniel/bb/compare/v1.0.0...v1.0.1) (2026-02-11)
 
 
