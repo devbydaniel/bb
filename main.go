@@ -105,6 +105,8 @@ func ensureBrowser() (*State, *rod.Browser) {
 	l := launcher.New().
 		Set("no-sandbox").
 		Set("disable-gpu").
+		Set("disable-dev-shm-usage").
+		Set("password-store", "basic").
 		Headless(true).
 		Leakless(false).
 		UserDataDir(dataDir)
