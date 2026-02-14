@@ -19,6 +19,7 @@ import (
 	"github.com/go-rod/rod"
 	"github.com/go-rod/rod/lib/launcher"
 	"github.com/go-rod/rod/lib/proto"
+	"github.com/go-rod/stealth"
 )
 
 //go:embed help.txt
@@ -343,7 +344,11 @@ func cmdOpen(args []string, flags globalFlags) {
 	pages, _ := browser.Pages()
 	var page *rod.Page
 	if len(pages) == 0 {
-		page = browser.MustPage(u).Timeout(defaultTimeout)
+		page = stealth.MustPage(browser)
+		page = page.Timeout(defaultTimeout)
+		if err := page.Navigate(u); err != nil {
+			fatal("navigation failed: %v", err)
+		}
 		s.ActivePage = 0
 		_ = saveState(s)
 	} else {
@@ -949,11 +954,12 @@ func cmdNewPage(args []string) {
 	}
 
 	var page *rod.Page
+	page = stealth.MustPage(browser)
 	if u != "" {
-		page = browser.MustPage(u)
+		if err := page.Navigate(u); err != nil {
+			fatal("navigation failed: %v", err)
+		}
 		page.MustWaitLoad()
-	} else {
-		page = browser.MustPage("")
 	}
 
 	pages, _ := browser.Pages()
