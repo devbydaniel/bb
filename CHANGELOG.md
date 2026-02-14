@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/devbydaniel/bb/compare/v1.0.2...v1.1.0) (2026-02-14)
+
+
+### Features
+
+* add stealth mode to avoid bot detection ([43e7e78](https://github.com/devbydaniel/bb/commit/43e7e78ce10510055d3163b62b30689048570ae6))
+
 ## [1.0.2](https://github.com/devbydaniel/bb/compare/v1.0.1...v1.0.2) (2026-02-14)
 
 
