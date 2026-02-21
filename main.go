@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	_ "embed"
 	"encoding/json"
 	"fmt"
@@ -303,6 +304,8 @@ func main() {
 		cmdAXFind(args, flags)
 	case "ax-node":
 		cmdAXNode(args, flags)
+	case "cdp":
+		cmdCDP(args)
 	case "status":
 		cmdStatus(flags)
 	case "stop":
@@ -1131,6 +1134,55 @@ func getActivePage(browser *rod.Browser, s *State) (*rod.Page, error) {
 		idx = 0
 	}
 	return pages[idx], nil
+}
+
+func cmdCDP(args []string) {
+	browserLevel := false
+	var filtered []string
+	for _, a := range args {
+		if a == "--browser" {
+			browserLevel = true
+		} else {
+			filtered = append(filtered, a)
+		}
+	}
+	args = filtered
+
+	if len(args) < 1 {
+		fatal("usage: bb cdp [--browser] <method> [params-json]")
+	}
+	method := args[0]
+
+	var params json.RawMessage
+	if len(args) > 1 {
+		raw := strings.Join(args[1:], " ")
+		if !json.Valid([]byte(raw)) {
+			fatal("invalid JSON params: %s", raw)
+		}
+		params = json.RawMessage(raw)
+	}
+
+	var res []byte
+	var err error
+	if browserLevel {
+		_, browser := ensureBrowser()
+		res, err = browser.Call(browser.GetContext(), "", method, params)
+	} else {
+		_, _, page := withPage()
+		res, err = page.Call(page.GetContext(), string(page.GetSessionID()), method, params)
+	}
+	if err != nil {
+		fatal("CDP call %s failed: %v", method, err)
+	}
+
+	// Pretty-print the JSON result
+	var pretty bytes.Buffer
+	if err := json.Indent(&pretty, res, "", "  "); err != nil {
+		// If indent fails, print raw
+		fmt.Println(string(res))
+		return
+	}
+	fmt.Println(pretty.String())
 }
 
 func cmdStop() {

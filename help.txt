@@ -33,6 +33,10 @@ INTERACT
 JAVASCRIPT
   bb js <expression>         Evaluate JS expression
 
+CDP (Chrome DevTools Protocol)
+  bb cdp <method> [json]     Execute CDP method on active page
+  bb cdp --browser <method> [json]  Execute CDP method at browser level
+
 WAIT
   bb wait <selector>         Wait for element to appear
   bb waitload                Wait for page load event
