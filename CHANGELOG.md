@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.1.0](https://github.com/devbydaniel/bb/compare/v1.0.2...v1.1.0) (2026-02-22)
+
+
+### Features
+
+* add bb cdp command for raw Chrome DevTools Protocol access ([d6e15f0](https://github.com/devbydaniel/bb/commit/d6e15f0ed0d145fcd302fc3e548cf7a426b2d2f7))
+* add stealth mode to avoid bot detection ([43e7e78](https://github.com/devbydaniel/bb/commit/43e7e78ce10510055d3163b62b30689048570ae6))
+
+
+### Bug Fixes
+
+* merge var declaration with assignment (staticcheck S1021), add pre-commit hooks ([b5704e8](https://github.com/devbydaniel/bb/commit/b5704e8598ae33ecf50ece7ee0216f07a51930a9))
+
 ## [1.0.2](https://github.com/devbydaniel/bb/compare/v1.0.1...v1.0.2) (2026-02-14)
 
 
