@@ -956,8 +956,7 @@ func cmdNewPage(args []string) {
 		}
 	}
 
-	var page *rod.Page
-	page = stealth.MustPage(browser)
+	page := stealth.MustPage(browser)
 	if u != "" {
 		if err := page.Navigate(u); err != nil {
 			fatal("navigation failed: %v", err)
